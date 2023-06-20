@@ -24,7 +24,7 @@ c = x[0]**2 + y[0]**2 - 1 #c is only needed for one time-step
 t[1] = -b[0] + np.sqrt(b[0]**2 - c)
 x[1] = x[0] + t[1]*np.cos(alpha[0])
 y[1] = y[0] + t[1]*np.sin(alpha[0])
-phi[1] = np.arctan2(x[1], y[1])
+phi[1] = np.arctan2(y[1], x[1])
 alpha[1] = 2*phi[1] - alpha[0] + np.pi
 b[1] = x[1]*np.cos(alpha[1]) + y[1]*np.sin(alpha[1])
 
@@ -33,7 +33,7 @@ for i in range(2, N):
     t[i] = -2*b[i - 1]
     x[i] = x[i - 1] + t[i]*np.cos(alpha[i - 1])
     y[i] = y[i - 1] + t[i]*np.sin(alpha[i - 1])
-    phi[i] = np.arctan2(x[i], y[i])
+    phi[i] = np.arctan2(y[i], x[i])
     alpha[i] = 2*phi[i] - alpha[i - 1] + np.pi
     b[i] = x[i]*np.cos(alpha[i]) + y[i]*np.sin(alpha[i])
     
@@ -45,6 +45,7 @@ for i in range(2, N):
 thetavals = np.linspace(0, 2*np.pi, 100)
 
 plt.scatter(x,y)
+plt.plot(x,y,c='green')
 plt.plot(np.cos(thetavals), np.sin(thetavals), color='black')
 ax = plt.gca()
 ax.set_aspect('equal', adjustable='box')
