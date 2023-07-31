@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 # Width of rectangular part of the stadium:
 L = 1
 
+# Radius of the circular part of the stadium
+R = 1
+
 def collision_data_nospin(N, x0, y0, alpha0):
     t = np.zeros(N) # times at collision
     x = np.zeros(N) # x-values at collision
@@ -25,43 +28,43 @@ def collision_data_nospin(N, x0, y0, alpha0):
     alpha[0] = alpha0
     b[0] = 0
     c[0] = 0
-    theta1[0] = np.arctan2(1 - y[0], L - x[0])
-    theta2[0] = np.arctan2(1 - y[0], -L - x[0])
-    theta3[0] = np.arctan2(-1 - y[0], -L - x[0])
-    theta4[0] = np.arctan2( -1 - y[0], L - x[0])
+    theta1[0] = np.arctan2(R - y[0], L - x[0])
+    theta2[0] = np.arctan2(R - y[0], -L - x[0])
+    theta3[0] = np.arctan2(-R - y[0], -L - x[0])
+    theta4[0] = np.arctan2( -R - y[0], L - x[0])
 
     # Update formula:
     for i in range(1, N):
         if (alpha[i - 1] - theta1[i - 1])%(2*np.pi) < (theta2[i - 1] - theta1[i - 1])%(2*np.pi):
-            t[i] = (1 - y[i - 1])/np.sin(alpha[i - 1])
+            t[i] = (R - y[i - 1])/np.sin(alpha[i - 1])
             x[i] = x[i - 1] + t[i]*np.cos(alpha[i - 1])
-            y[i] = 1
+            y[i] = R
             alpha[i] = -alpha[i - 1]
         if (alpha[i - 1] - theta2[i - 1])%(2*np.pi) < (theta3[i - 1] - theta2[i - 1])%(2*np.pi):
             b[i] = (x[i - 1] + L)*np.cos(alpha[i - 1]) + y[i - 1]*np.sin(alpha[i - 1])
-            c[i] = (x[i - 1] + L)**2 + y[i - 1]**2 - 1
+            c[i] = (x[i - 1] + L)**2 + y[i - 1]**2 - R**2
             t[i] = -b[i] + np.sqrt(b[i]**2 - c[i])
             x[i] = x[i - 1] + t[i]*np.cos(alpha[i - 1])
             y[i] = y[i - 1] + t[i]*np.sin(alpha[i - 1])
             phi[i] = np.arctan2(y[i], x[i] + L)
             alpha[i] = 2*phi[i] - alpha[i - 1] + np.pi
         if (alpha[i - 1] - theta3[i - 1])%(2*np.pi) < (theta4[i - 1] - theta3[i - 1])%(2*np.pi):
-            t[i] = (-1 - y[i - 1])/np.sin(alpha[i - 1])
+            t[i] = (-R - y[i - 1])/np.sin(alpha[i - 1])
             x[i] = x[i - 1] + t[i]*np.cos(alpha[i - 1])
-            y[i] = -1
+            y[i] = -R
             alpha[i] = -alpha[i - 1]
         if (alpha[i - 1] - theta4[i - 1])%(2*np.pi) < (theta1[i - 1] - theta4[i - 1])%(2*np.pi):
             b[i] = (x[i - 1] - L)*np.cos(alpha[i - 1]) + y[i - 1]*np.sin(alpha[i - 1])
-            c[i] = (x[i - 1] - L)**2 + y[i - 1]**2 - 1
+            c[i] = (x[i - 1] - L)**2 + y[i - 1]**2 - R**2
             t[i] = -b[i] + np.sqrt(b[i]**2 - c[i])
             x[i] = x[i - 1] + t[i]*np.cos(alpha[i - 1])
             y[i] = y[i - 1] + t[i]*np.sin(alpha[i - 1])
             phi[i] = np.arctan2(y[i], x[i] - L)
             alpha[i] = 2*phi[i] - alpha[i - 1] + np.pi
-        theta1[i] = np.arctan2(1 - y[i], L - x[i])
-        theta2[i] = np.arctan2(1 - y[i], -L - x[i])
-        theta3[i] = np.arctan2(-1 - y[i], -L - x[i])
-        theta4[i] = np.arctan2( -1 - y[i], L - x[i])
+        theta1[i] = np.arctan2(R - y[i], L - x[i])
+        theta2[i] = np.arctan2(R - y[i], -L - x[i])
+        theta3[i] = np.arctan2(-R - y[i], -L - x[i])
+        theta4[i] = np.arctan2( -R - y[i], L - x[i])
         
     return x, y, alpha
 
@@ -96,17 +99,17 @@ def collision_data(N, x0, y0, alpha0, u0, MI_coeff):
     alpha[0] = alpha0
     b[0] = 0
     c[0] = 0
-    theta1[0] = np.arctan2(1 - y[0], L - x[0])
-    theta2[0] = np.arctan2(1 - y[0], -L - x[0])
-    theta3[0] = np.arctan2(-1 - y[0], -L - x[0])
-    theta4[0] = np.arctan2( -1 - y[0], L - x[0])
+    theta1[0] = np.arctan2(R - y[0], L - x[0])
+    theta2[0] = np.arctan2(R - y[0], -L - x[0])
+    theta3[0] = np.arctan2(-R - y[0], -L - x[0])
+    theta4[0] = np.arctan2( -R - y[0], L - x[0])
 
     # Update formula:
     for i in range(1, N):
         if (alpha[i - 1] - theta1[i - 1])%(2*np.pi) < (theta2[i - 1] - theta1[i - 1])%(2*np.pi):
-            t[i] = (1 - y[i - 1])/vy[i - 1]
+            t[i] = (R - y[i - 1])/vy[i - 1]
             x[i] = x[i - 1] + t[i]*vx[i - 1]
-            y[i] = 1
+            y[i] = R
             
             vT = -vx[i - 1]
             vn = -vy[i - 1]
@@ -119,7 +122,7 @@ def collision_data(N, x0, y0, alpha0, u0, MI_coeff):
             alpha[i] = np.arctan2(vy[i],vx[i])
         if (alpha[i - 1] - theta2[i - 1])%(2*np.pi) < (theta3[i - 1] - theta2[i - 1])%(2*np.pi):
             b[i] = ((x[i - 1] + L)*vx[i - 1] + y[i - 1]*vy[i - 1])/(vx[i - 1]**2 + vy[i - 1]**2)
-            c[i] = ((x[i - 1] + L)**2 + y[i - 1]**2 - 1)/(vx[i - 1]**2 + vy[i - 1]**2)
+            c[i] = ((x[i - 1] + L)**2 + y[i - 1]**2 - R**2)/(vx[i - 1]**2 + vy[i - 1]**2)
             t[i] = -b[i] + np.sqrt(b[i]**2 - c[i])
             x[i] = x[i - 1] + t[i]*vx[i - 1]
             y[i] = y[i - 1] + t[i]*vy[i - 1]
@@ -139,9 +142,9 @@ def collision_data(N, x0, y0, alpha0, u0, MI_coeff):
             vy[i] = vnew[1]
             alpha[i] = np.arctan2(vy[i], vx[i])
         if (alpha[i - 1] - theta3[i - 1])%(2*np.pi) < (theta4[i - 1] - theta3[i - 1])%(2*np.pi):
-            t[i] = (-1 - y[i - 1])/vy[i - 1]
+            t[i] = (-R - y[i - 1])/vy[i - 1]
             x[i] = x[i - 1] + t[i]*vx[i - 1]
-            y[i] = -1
+            y[i] = -R
             
             vT = vx[i - 1]
             vn = vy[i - 1]
@@ -154,7 +157,7 @@ def collision_data(N, x0, y0, alpha0, u0, MI_coeff):
             alpha[i] = np.arctan2(vy[i],vx[i])
         if (alpha[i - 1] - theta4[i - 1])%(2*np.pi) < (theta1[i - 1] - theta4[i - 1])%(2*np.pi):
             b[i] = ((x[i - 1] - L)*vx[i - 1] + y[i - 1]*vy[i - 1])/(vx[i - 1]**2 + vy[i - 1]**2)
-            c[i] = ((x[i - 1] - L)**2 + y[i - 1]**2 - 1)/(vx[i - 1]**2 + vy[i - 1]**2)
+            c[i] = ((x[i - 1] - L)**2 + y[i - 1]**2 - R**2)/(vx[i - 1]**2 + vy[i - 1]**2)
             t[i] = -b[i] + np.sqrt(b[i]**2 - c[i])
             x[i] = x[i - 1] + t[i]*vx[i - 1]
             y[i] = y[i - 1] + t[i]*vy[i - 1]
@@ -173,10 +176,10 @@ def collision_data(N, x0, y0, alpha0, u0, MI_coeff):
             vx[i] = vnew[0]
             vy[i] = vnew[1]
             alpha[i] = np.arctan2(vy[i], vx[i])
-        theta1[i] = np.arctan2(1 - y[i], L - x[i])
-        theta2[i] = np.arctan2(1 - y[i], -L - x[i])
-        theta3[i] = np.arctan2(-1 - y[i], -L - x[i])
-        theta4[i] = np.arctan2( -1 - y[i], L - x[i])
+        theta1[i] = np.arctan2(R - y[i], L - x[i])
+        theta2[i] = np.arctan2(R - y[i], -L - x[i])
+        theta3[i] = np.arctan2(-R - y[i], -L - x[i])
+        theta4[i] = np.arctan2( -R - y[i], L - x[i])
         
     return x, y, alpha
 
